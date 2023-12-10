@@ -1,0 +1,27 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://postgres:5432/db
+    username: admin
+    password: 12345
+  application:
+    name: gateway
+  main:
+    web-application-type: reactive
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.springframework.boot: DEBUG
+    org.springframework.cloud: DEBUG
+    org.postgresql: DEBUG
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://discovery:8761/eureka/
+
+
+jwt:
+  secret: RCJEFOwZw0YYAnyYePGqQ9g3HdpkhcWN

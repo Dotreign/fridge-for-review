@@ -1,0 +1,50 @@
+version: '3'
+services:
+  gateway:
+    build: "./gateway"
+    container_name: gateway
+    ports:
+      - 8080:8080
+    volumes:
+      - ./gateway:/app
+    depends_on:
+      discovery:
+        condition: service_started
+
+  fridge:
+    build: "./fridge"
+    container_name: fridge
+    ports:
+      - 8081:8081
+    volumes:
+      - ./fridge:/app
+    depends_on:
+      discovery:
+        condition: service_started
+      postgres:
+        condition: service_started
+
+  discovery:
+    build: "./discovery"
+    container_name: discovery
+    ports:
+      - 8761:8761
+    volumes:
+      - ./discovery:/app
+
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: db
+
+  frontend:
+    build:
+      context: ../frigofront/frontend/frigo-amigo
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
